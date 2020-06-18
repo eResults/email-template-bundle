@@ -2,6 +2,7 @@
 
 namespace eResults\EmailTemplateBundle\DependencyInjection;
 
+use eResults\EmailTemplateBundle\Loader\LoaderInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -26,6 +27,6 @@ class eResultsEmailTemplateExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
 
-        $container->setAlias('eresults_email_template.loader', $config['default_loader']);
+        $container->setAlias(LoaderInterface::class, $config['default_loader']);
     }
 }
