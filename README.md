@@ -1,14 +1,12 @@
-Email Templates Bundle for Symfony2
-=======================
+# EmailTemplateBundle
+`eResults\EmailTemplateBundle` lets you use a single template to encapsulate all aspects of an email, like subject body and even From, CC & BCC fields. This also allows you to store (Twig) templates in your database.
 
-This bundle can be useful when you need to send diffrent kind of emails from your app, for eg. user registration or forgot password email. Read usage section.
 
-[![Build Status](https://travis-ci.org/mathewpeterson/EmailTemplateBundle.svg)](https://travis-ci.org/mathewpeterson/EmailTemplateBundle)
+## Requirements
+* PHP >=7.4
+* Symfony ^4.4|^5.0
 
 ## Installation
-
-### Add bundle via composer (Symfony 2.1)
-
 ```bash
 composer req eresults/email-template-bundle
 ```
@@ -19,10 +17,10 @@ composer req eresults/email-template-bundle
 // app/AppKernel.php
 public function registerBundles() 
 {
-    $bundles = array(
+    $bundles = [
         // ...
         new eResults\EmailTemplateBundle\eResultsEmailTemplateBundle(),
-    );
+    ];
 }
 ```
 
