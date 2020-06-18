@@ -8,7 +8,7 @@ use eResults\EmailTemplateBundle\Template\EmailTemplate;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 
-final class TwigLoader implements LoaderInterface
+class TwigLoader implements LoaderInterface
 {
     private Environment $twig;
 

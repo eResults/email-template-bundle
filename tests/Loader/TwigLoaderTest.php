@@ -1,57 +1,56 @@
 <?php
 
-namespace eResults\EmailTemplateBundle\Tests\Loader;
+namespace eResults\EmailTemplateBundle\Loader;
 
-/**
- * TwigLoaderTest
- *
- */
-class TwigLoaderTest extends \PHPUnit_Framework_TestCase
+use eResults\EmailTemplateBundle\Template\EmailTemplateInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Twig\Environment;
+use Twig\TemplateWrapper;
+
+class TwigLoaderTest extends TestCase
 {
     public function testLoadTemplate()
     {
-        $twig = $this->getMockBuilder('Twig_Environment')
+        /** @var Environment|MockObject $twig */
+        $twig = $this->getMockBuilder(Environment::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('renderBlock', 'loadTemplate'))
+            ->onlyMethods(['load'])
             ->getMock()
         ;
 
-        $twigTemplate = $this->getMockBuilder('Twig_Template')
+        /** @var TemplateWrapper|MockObject $twigTemplate */
+        $twigTemplate = $this->getMockBuilder(TemplateWrapper::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('renderBlock'))
             ->getMock()
         ;
 
-        $twig->expects($this->once())
-            ->method('loadTemplate')
-            ->will($this->returnValue($twigTemplate))
-        ;
-
-        $htmlTemplate = array(
+        $htmlTemplate = [
             'from' => 'example@example.com',
             'cc' => 'ccexample@example.com',
             'bcc' => 'bccexample@example.com',
             'subject' => 'Thanks for registering!',
-            'body' => 'Body text'
-        );
+            'body' => 'Body text',
+        ];
 
         $twigTemplate->expects($this->exactly(5))
             ->method('renderBlock')
             ->with($this->logicalOr('from', 'cc', 'bcc', 'subject', 'body'))
-            ->will($this->returnCallback(function($block, $params) use ($htmlTemplate){
+            ->will($this->returnCallback(function ($block, $params) use ($htmlTemplate) {
                 return $htmlTemplate[$block];
             }))
         ;
 
-        $loader = $this->getMockBuilder('eResults\EmailTemplateBundle\Loader\TwigLoader')
-            ->setConstructorArgs(array($twig))
-            ->setMethods(null)
-            ->getMock()
+        $twig->expects($this->once())
+            ->method('load')
+            ->will($this->returnValue($twigTemplate))
         ;
+
+        $loader = new TwigLoader($twig);
 
         $template = $loader->load('email.html.twig');
 
-        $this->assertInstanceOf('eResults\EmailTemplateBundle\Template\EmailTemplateInterface', $template);
+        $this->assertInstanceOf(EmailTemplateInterface::class, $template);
         $this->assertEquals('example@example.com', $template->getFrom());
         $this->assertEquals('ccexample@example.com', $template->getCc());
         $this->assertEquals('bccexample@example.com', $template->getBcc());

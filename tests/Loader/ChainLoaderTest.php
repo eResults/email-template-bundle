@@ -1,36 +1,22 @@
 <?php
 
-namespace eResults\EmailTemplateBundle\Tests\Loader;
+namespace eResults\EmailTemplateBundle\Loader;
 
-use eResults\EmailTemplateBundle\Loader\LoaderInterface;
 use eResults\EmailTemplateBundle\Template\EmailTemplate;
+use eResults\EmailTemplateBundle\Template\EmailTemplateInterface;
+use PHPUnit\Framework\TestCase;
 
-class ChainLoaderTest extends \PHPUnit_Framework_TestCase
+class ChainLoaderTest extends TestCase
 {
     public function testAddLoader()
     {
-        $loader = $this->getMockBuilder('eResults\EmailTemplateBundle\Loader\ChainLoader')
-            ->setMethods(array('addLoader'))
-            ->getMock()
-        ;
+        $loader = new ChainLoader();
 
         $this->assertTrue(is_array($loader->getLoaders()));
-        $this->assertEquals(0, count($loader->getLoaders()));
+        $this->assertCount(0, $loader->getLoaders());
 
-        $loader->expects($this->once())
-            ->method('addLoader')
-        ;
-
-        $loader->addLoader(new TestLoader());
-
-        try {
-            $loader->addLoader(new \stdClass());
-        } catch(\Exception $e) {
-            // pass
-            return;
-        }
-
-        $this->fail('An expected exception has not been raised, addLoader must accept LoaderInterface.');
+        $loader->addLoader(new ChainLoaderTestTestLoader());
+        $this->assertCount(1, $loader->getLoaders());
     }
 
     public function testNoLoaders()
@@ -40,7 +26,7 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $this->setExpectedException('LogicException');
+        $this->expectException('LogicException');
 
         // should throw exception because no loaders added before ->load()
         $loader->load('email.html.twig');
@@ -53,7 +39,7 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $loader->addLoader(new TestLoader());
+        $loader->addLoader(new ChainLoaderTestTestLoader());
 
         $template = $loader->load('email.html.twig');
 
@@ -67,10 +53,9 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestLoader implements LoaderInterface
+class ChainLoaderTestTestLoader implements LoaderInterface
 {
-
-    public function load($template, array $parameters = array())
+    public function load($template, array $parameters = []): EmailTemplateInterface
     {
         return new EmailTemplate(
             'example@example.com',
