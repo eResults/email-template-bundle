@@ -1,45 +1,45 @@
 <?php
 
-namespace Sfk\EmailTemplateBundle\Template;
+namespace eResults\EmailTemplateBundle\Template;
 
 /**
  * EmailTemplateInterface
- * 
+ *
  */
 interface EmailTemplateInterface
 {
     /**
      * From email address
-     * 
+     *
      * @return string
      */
-    function getFrom();
+    function getFrom(): string;
 
     /**
      * CC address
-     * 
+     *
      * @return string
      */
-    function getCc();
+    function getCc(): ?string;
 
     /**
      * Bcc address
-     * 
+     *
      * @return string
      */
-    function getBcc();
+    function getBcc(): ?string;
 
     /**
      * Email subject
-     * 
+     *
      * @return string
      */
-    function getSubject();
+    function getSubject(): string;
 
     /**
      * Email body
-     * 
+     *
      * @return string
      */
-    function getBody();
+    function getBody(): string;
 }

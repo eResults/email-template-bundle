@@ -21,7 +21,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Sfk\EmailTemplateBundle\SfkEmailTemplateBundle(),
+        new eResults\EmailTemplateBundle\eResultsEmailTemplateBundle(),
     );
 }
 ```

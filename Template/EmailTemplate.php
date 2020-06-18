@@ -1,59 +1,16 @@
 <?php
 
-namespace Sfk\EmailTemplateBundle\Template;
+namespace eResults\EmailTemplateBundle\Template;
 
-/**
- * EmailTemplate
- * 
- */
 class EmailTemplate implements EmailTemplateInterface
 {
-    /**
-     * From email address
-     * 
-     * @var string
-     */
-    protected $from;
+    protected string $from;
+    protected ?string $cc;
+    protected ?string $bcc;
+    protected string $subject;
+    protected string $body;
 
-    /**
-     * Cc email address
-     * 
-     * @var string
-     */
-    protected $cc;
-
-    /**
-     * Bcc email address
-     * 
-     * @var string
-     */
-    protected $bcc;
-
-    /**
-     * Email subject
-     * 
-     * @var string
-     */
-    protected $subject;
-
-    /**
-     * Email body
-     * 
-     * @var string
-     */
-    protected $body;
-
-
-    /**
-     * Constructor
-     * 
-     * @param string $from
-     * @param string $subject
-     * @param string $body
-     * @param string $cc
-     * @param string $bcc
-     */
-    public function __construct($from, $subject, $body, $cc = null, $bcc = null)
+    public function __construct(string $from, string $subject, string $body, string $cc = null, string $bcc = null)
     {
         $this->from = $from;
         $this->subject = $subject;
@@ -62,47 +19,32 @@ class EmailTemplate implements EmailTemplateInterface
         $this->bcc = $bcc;
     }
 
-    /**
-     * {@inheritdoc}
-     * 
-     */
-    public function getFrom()
+    /** @inheritDoc */
+    public function getFrom(): string
     {
         return $this->from;
     }
 
-    /**
-     * {@inheritdoc}
-     * 
-     */
-    public function getCc()
+    /** @inheritDoc */
+    public function getCc(): ?string
     {
         return $this->cc;
     }
 
-    /**
-     * {@inheritdoc}
-     * 
-     */
-    public function getBcc()
+    /** @inheritDoc */
+    public function getBcc(): ?string
     {
         return $this->bcc;
     }
 
-    /**
-     * {@inheritdoc}
-     * 
-     */
-    public function getSubject()
+    /** @inheritDoc */
+    public function getSubject(): string
     {
         return $this->subject;
     }
 
-    /**
-     * {@inheritdoc}
-     * 
-     */
-    public function getBody()
+    /** @inheritDoc */
+    public function getBody(): string
     {
         return $this->body;
     }

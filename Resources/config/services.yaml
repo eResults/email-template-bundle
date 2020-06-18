@@ -1,0 +1,17 @@
+parameters:
+    eresults_email_template.loader.chain_class: 'eResults\EmailTemplateBundle\Loader\ChainLoader'
+    eresults_email_template.loader.object_class: 'eResults\EmailTemplateBundle\Loader\ObjectLoader'
+    eresults_email_template.loader.twig_class: 'eResults\EmailTemplateBundle\Loader\TwigLoader'
+
+services:
+    _defaults:
+        autowire: true
+
+    eresults_email_template.loader.chain:
+        class: "%eresults_email_template.loader.object_class%"
+
+    eresults_email_template.loader.object:
+        class: "%eresults_email_template.loader.object_class%"
+
+    eresults_email_template.loader.twig:
+        class: "%eresults_email_template.loader.twig_class%"

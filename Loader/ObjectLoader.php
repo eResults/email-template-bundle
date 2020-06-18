@@ -1,53 +1,55 @@
 <?php
 
-namespace Sfk\EmailTemplateBundle\Loader;
+namespace eResults\EmailTemplateBundle\Loader;
 
-use Sfk\EmailTemplateBundle\Template\EmailTemplateInterface;
-use Sfk\EmailTemplateBundle\Template\EmailTemplate;
+use eResults\EmailTemplateBundle\Template\EmailTemplate;
+use eResults\EmailTemplateBundle\Template\EmailTemplateInterface;
+use Twig\Environment;
 
-/**
- * ObjectLoader
- * 
- */
-class ObjectLoader implements LoaderInterface 
+final class ObjectLoader implements LoaderInterface
 {
-    /**
-     * @var \Twig_Environment
-     * 
-     */
-    protected $twig;
-    
+    private Environment $twig;
 
-    /**
-     * @param \Twig_Environment $twig
-     * 
-     */
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(Environment $twig)
     {
         $this->twig = clone $twig;
-
-        $this->twig->setLoader(new \Twig_Loader_String());
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     */
-    public function load($templateName, array $parameters = array())
+    /** @inheritDoc */
+    public function load($template, array $parameters = []): EmailTemplate
     {
-        if (!$templateName instanceof EmailTemplateInterface) {
-            throw new \InvalidArgumentException(sprintf('Instance of "EmailTemplateInterface" expected, "%s" given.', gettype($templateName)));
+        if (!$template instanceof EmailTemplateInterface) {
+            throw new \InvalidArgumentException(sprintf('Instance of "EmailTemplateInterface" expected, "%s" given.', gettype($template)));
         }
 
-        $from = $this->twig->render($templateName->getFrom(), $parameters);
-        $cc = $this->twig->render($templateName->getCc(), $parameters);
-        $bcc = $this->twig->render($templateName->getBcc(), $parameters);
-        $subject = $this->twig->render($templateName->getSubject(), $parameters);
-        $body = $this->twig->render($templateName->getBody(), $parameters);
-        
+        $from = $this->twig->render(
+            $this->twig->createTemplate($template->getFrom()),
+            $parameters
+        );
+
+        $cc = $this->twig->render(
+            $this->twig->createTemplate($template->getCc()),
+            $parameters
+        );
+
+        $bcc = $this->twig->render(
+            $this->twig->createTemplate($template->getBcc()),
+            $parameters
+        );
+
+        $subject = $this->twig->render(
+            $this->twig->createTemplate($template->getSubject()),
+            $parameters
+        );
+
+        $body = $this->twig->render(
+            $this->twig->createTemplate($template->getBody()),
+            $parameters
+        );
+
         return new EmailTemplate(
-            $from, 
-            $subject, 
+            $from,
+            $subject,
             $body,
             $cc,
             $bcc

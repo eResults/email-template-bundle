@@ -1,10 +1,10 @@
 <?php
 
-namespace Sfk\EmailTemplateBundle\Tests\Loader;
+namespace eResults\EmailTemplateBundle\Tests\Loader;
 
 /**
  * TwigLoaderTest
- * 
+ *
  */
 class TwigLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,8 +42,8 @@ class TwigLoaderTest extends \PHPUnit_Framework_TestCase
                 return $htmlTemplate[$block];
             }))
         ;
-        
-        $loader = $this->getMockBuilder('Sfk\EmailTemplateBundle\Loader\TwigLoader')
+
+        $loader = $this->getMockBuilder('eResults\EmailTemplateBundle\Loader\TwigLoader')
             ->setConstructorArgs(array($twig))
             ->setMethods(null)
             ->getMock()
@@ -51,7 +51,7 @@ class TwigLoaderTest extends \PHPUnit_Framework_TestCase
 
         $template = $loader->load('email.html.twig');
 
-        $this->assertInstanceOf('Sfk\EmailTemplateBundle\Template\EmailTemplateInterface', $template);
+        $this->assertInstanceOf('eResults\EmailTemplateBundle\Template\EmailTemplateInterface', $template);
         $this->assertEquals('example@example.com', $template->getFrom());
         $this->assertEquals('ccexample@example.com', $template->getCc());
         $this->assertEquals('bccexample@example.com', $template->getBcc());

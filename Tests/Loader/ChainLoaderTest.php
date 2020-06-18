@@ -1,19 +1,15 @@
 <?php
 
-namespace Sfk\EmailTemplateBundle\Tests\Loader;
+namespace eResults\EmailTemplateBundle\Tests\Loader;
 
-use Sfk\EmailTemplateBundle\Loader\LoaderInterface;
-use Sfk\EmailTemplateBundle\Template\EmailTemplate;
+use eResults\EmailTemplateBundle\Loader\LoaderInterface;
+use eResults\EmailTemplateBundle\Template\EmailTemplate;
 
-/**
- * ChainLoaderTest
- * 
- */
 class ChainLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testAddLoader()
     {
-        $loader = $this->getMockBuilder('Sfk\EmailTemplateBundle\Loader\ChainLoader')
+        $loader = $this->getMockBuilder('eResults\EmailTemplateBundle\Loader\ChainLoader')
             ->setMethods(array('addLoader'))
             ->getMock()
         ;
@@ -39,7 +35,7 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testNoLoaders()
     {
-        $loader = $this->getMockBuilder('Sfk\EmailTemplateBundle\Loader\ChainLoader')
+        $loader = $this->getMockBuilder('eResults\EmailTemplateBundle\Loader\ChainLoader')
             ->setMethods(null)
             ->getMock()
         ;
@@ -52,7 +48,7 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testOneLoader()
     {
-        $loader = $this->getMockBuilder('Sfk\EmailTemplateBundle\Loader\ChainLoader')
+        $loader = $this->getMockBuilder('eResults\EmailTemplateBundle\Loader\ChainLoader')
             ->setMethods(null)
             ->getMock()
         ;
@@ -61,7 +57,7 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
 
         $template = $loader->load('email.html.twig');
 
-        $this->assertInstanceOf('Sfk\EmailTemplateBundle\Template\EmailTemplateInterface', $template);
+        $this->assertInstanceOf('eResults\EmailTemplateBundle\Template\EmailTemplateInterface', $template);
         $this->assertEquals('example@example.com', $template->getFrom());
         $this->assertEquals('ccexample@example.com', $template->getCc());
         $this->assertEquals('bccexample@example.com', $template->getBcc());
@@ -71,14 +67,14 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestLoader implements LoaderInterface 
+class TestLoader implements LoaderInterface
 {
 
-    public function load($templateName, array $parameters = array())
+    public function load($template, array $parameters = array())
     {
         return new EmailTemplate(
             'example@example.com',
-            'Test subject', 
+            'Test subject',
             'Test body',
             'ccexample@example.com',
             'bccexample@example.com'

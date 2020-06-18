@@ -2,15 +2,15 @@
 
 The example below implements Doctrine, but you can use any ORM, it's simple.
 
-* Your entity must implement ```Sfk\EmailTemplateBundle\Template\EmailTemplateInterface``` interface, see doctrine example below:
+* Your entity must implement ```eResults\EmailTemplateBundle\Template\EmailTemplateInterface``` interface, see doctrine example below:
 
 ```php
 <?php
-// src/Acme/DemoBundle/Entity
+// src/Acme/DemoBundle/Entity.php
 namespace Acme\DemoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Sfk\EmailTemplateBundle\Template\EmailTemplateInterface;
+use eResults\EmailTemplateBundle\Template\EmailTemplateInterface;
 
 /**
  * @ORM\Entity()
@@ -44,12 +44,12 @@ class UserController extends Controller {
                 'name' => 'user_registered_email',
             ));
             if (null !== $entity) {
-                $template = $this->get('sfk_email_template.loader.object')
+                $template = $this->get('eresults_email_template.loader.object')
                     ->load($entity, $formData)
                 ;
             } else {
-                $template = $this->get('sfk_email_template.loader.twig')
-                    ->load('AcmeDemoBundle:Emails:user_registered.html.twig', $formData)
+                $template = $this->get('eresults_email_template.loader.twig')
+                    ->load('AcmeDemoBundle/Emails/user_registered.html.twig', $formData)
                 ;
             }
 

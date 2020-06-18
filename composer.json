@@ -1,24 +1,32 @@
 {
-    "name": "sfk/email-template-bundle",
+    "name": "eresults/email-template-bundle",
     "type": "symfony-bundle",
-    "description": "This bundle helps you to deal with emails in your Symfony2 app. Render emails from Twig or Database, it's easy!.",
+    "description": "Easily render email subject, body, etc. from a single template or even a database entry.",
     "keywords": ["emails integration","twig email", "doctrine email"],
-    "homepage": "http://github.com/getme/EmailTemplateBundle",
+    "homepage": "http://github.com/eresults/email-template-bundle",
     "license": "MIT",
     "authors": [
         {
-            "name": "Oleg Khussainov",
-            "email": "oleg@hireoleg.com",
-            "role": "Developer"
+            "name": "Niels Janssen",
+            "email": "nielsjanssen@eresults.nl"
+        },
+        {
+            "name": "eResults",
+            "homepage": "https://eresults.nl"
         }
     ],
     "require": {
-        "symfony/framework-bundle": "~2.1|~3.0|~4.0"
+        "php": ">=7.4",
+        "symfony/dependency-injection": "^4.0|^5.0",
+        "symfony/config": "^4.0|^5.0",
+        "symfony/http-kernel": "^4.0|^5.0"
+    },
+    "require-dev": {
+        "twig/twig": "~2.0|~3.0"
     },
     "autoload": {
-        "psr-0": {
-            "Sfk\\EmailTemplateBundle": ""
+        "psr-4": {
+            "eResults\\EmailTemplateBundle": ""
         }
-    },
-    "target-dir": "Sfk/EmailTemplateBundle"
+    }
 }

@@ -1,57 +1,40 @@
 <?php
 
-namespace Sfk\EmailTemplateBundle\Loader;
+declare(strict_types=1);
 
-use Sfk\EmailTemplateBundle\Template\EmailTemplate;
+namespace eResults\EmailTemplateBundle\Loader;
 
-/**
- * TwigLoader
- * 
- */
-class TwigLoader implements LoaderInterface 
+use eResults\EmailTemplateBundle\Template\EmailTemplate;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+
+final class TwigLoader implements LoaderInterface
 {
-    /**
-     * @var \Twig_Environment
-     * 
-     */
-    protected $twig;
-    
+    private Environment $twig;
 
-    /**
-     * @param \Twig_Environment $twig
-     * 
-     */
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(Environment $twig)
     {
         $this->twig = $twig;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     */
-    public function load($templateName, array $parameters = array())
+    public function load($template, array $parameters = []): EmailTemplate
     {
-        $templateName = (string) $templateName;
-        
+        if (!is_string($template)) {
+            throw new \InvalidArgumentException(sprintf('string expected, "%s" given.', gettype($template)));
+        }
+
         try {
-            $template = $this->twig->loadTemplate($templateName);
-                
-            $from = $template->renderBlock('from', $parameters);
-            $cc = $template->renderBlock('cc', $parameters);
-            $bcc = $template->renderBlock('bcc', $parameters);
-            $subject = $template->renderBlock('subject', $parameters);
-            $body = $template->renderBlock('body', $parameters);
-        } catch (\Twig_Error_Loader $e) {
-            throw new LoaderException(sprintf('Could not load "%s" template.', $templateName), $e->getCode(), $e);
+            $twigTemplate = $this->twig->load($template);
+        } catch (LoaderError $e) {
+            throw new LoaderException(sprintf('Could not load "%s" template.', $template), $e->getCode(), $e);
         }
 
         return new EmailTemplate(
-            $from, 
-            $subject, 
-            $body,
-            $cc,
-            $bcc
+            $twigTemplate->renderBlock('from', $parameters),
+            $twigTemplate->renderBlock('subject', $parameters),
+            $twigTemplate->renderBlock('body', $parameters),
+            $twigTemplate->renderBlock('cc', $parameters),
+            $twigTemplate->renderBlock('bcc', $parameters)
         );
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Sfk\EmailTemplateBundle\Loader;
+namespace eResults\EmailTemplateBundle\Loader;
 
 /**
  * LoaderException
- * 
+ *
  */
 class LoaderException extends \Exception
 {
-    
+
 }

@@ -1,22 +1,19 @@
 <?php
 
-namespace Sfk\EmailTemplateBundle\Loader;
+namespace eResults\EmailTemplateBundle\Loader;
 
-use Sfk\EmailTemplateBundle\Template\EmailTemplate;
+use eResults\EmailTemplateBundle\Template\EmailTemplate;
+use eResults\EmailTemplateBundle\Template\EmailTemplateInterface;
 
-/**
- * LoaderInterface
- * 
- */
-interface LoaderInterface 
+interface LoaderInterface
 {
     /**
      * Load email template
      *
-     * @param string $templateName Template to load
+     * @param mixed $template Template to load
      * @param array $parameters Template parameters
-     * 
+     *
      * @return EmailTemplate
      */
-    function load($templateName, array $parameters = array());
+    function load($template, array $parameters = []): EmailTemplateInterface;
 }
